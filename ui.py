@@ -1,25 +1,19 @@
-# Phase 1 libraries
 import os
 import warnings
 import logging
 import streamlit as st
-
-# Phase 2 libraries
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA
-
-# Phase 3 libraries
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
 from langchain.indexes import VectorstoreIndexCreator
 
-# Disable warnings and info logs
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
-# Streamlit Title
+# Title
 st.title("Ask Chatbot!")
 
 # Session state for messages
@@ -60,12 +54,11 @@ if prompt and uploaded_pdf:
         vectorstore = get_vectorstore_from_path(temp_path)
 
         # Setup model
-        model = "llama3-8b-8192" 
-            groq_chat = ChatGroq(
-            groq_api_key=st.secrets["GROQ_API_KEY"], 
-             model_name=model
-            )
-
+        model = "llama3-8b-8192"
+        groq_chat = ChatGroq(
+            groq_api_key=st.secrets["GROQ_API_KEY"],
+            model_name=model
+        )
 
         # Setup retrieval chain
         chain = RetrievalQA.from_chain_type(
